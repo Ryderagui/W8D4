@@ -127,5 +127,74 @@ Function.prototype.curry = function(numArgs) {
     return helper;
 }
 
-const sumCurry = sum2.curry(3);
-console.log(sumCurry(1)(3)(5))
+// const sumCurry = sum2.curry(3);
+// console.log(sumCurry(1)(3)(5))
+
+Function.prototype.inherits = function(SuperClass) {
+    // Create the Surrogate
+    function Surrogate () {};
+    Surrogate.prototype = SuperClass.prototype;
+    this.prototype = new Surrogate();
+    this.prototype.constructor = this; 
+
+}
+
+// function MovingObject () {};
+
+// function Ship () {}
+// Ship.inherits(MovingObject);
+
+// function Asteroid () {}
+// Asteroid.inherits(MovingObject);
+
+
+
+// let A = new Asteroid
+// let S = new Ship 
+// let M = new MovingObject
+// A.explode()
+// S.sink()
+// // A.sink()
+// // S.explode()
+// M.shape()
+// // M.sink()
+
+
+Function.prototype.inheritsWithCreate = function(SuperClass) {
+    // Use Object.create
+    this.prototype = Object.create(SuperClass.prototype);
+    this.prototype.constructor = this;
+    
+}
+
+function MovingObject () {};
+
+function Ship () {}
+Ship.inheritsWithCreate(MovingObject);
+
+function Asteroid () {}
+
+Asteroid.inheritsWithCreate(MovingObject);
+MovingObject.prototype.shape = function () {
+    console.log("This is the shape function")
+}
+
+Asteroid.prototype.explode = function () {
+    console.log("Asteroid Explodes into a million pieces")
+}
+
+Ship.prototype.sink = function () {
+    console.log("Glug Glug Glug")
+}
+
+let A = new Asteroid
+let S = new Ship 
+let M = new MovingObject
+A.explode()
+S.sink()
+// A.sink()
+// S.explode()
+M.shape()
+// M.sink()
+
+
